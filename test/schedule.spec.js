@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const expect = require('chai').expect;
 const schedule = require('../lib/schedule');
 
@@ -13,6 +14,7 @@ describe('schedule', function () {
 			const slots_needed = s.number_of_teams * s.number_of_team_games_per_week;
 			const available_slots = s.number_concurrent_games * s.number_time_slots_per_week * s.teams_per_game;
 			expect(slots_needed).to.equal(available_slots);
+			expect(available_slots).to.equal(24);
 		});
 
 		it('total number of matches', function () {
@@ -23,6 +25,19 @@ describe('schedule', function () {
 			const games_needed = teams_choose_games * s.number_of_pairing_matches;
 			const available_games = s.number_concurrent_games * s.number_time_slots_per_week * s.number_of_weeks;
 			expect(games_needed).to.equal(available_games);
+			expect(available_games).to.equal(s.remainingMatches.length);
+			expect(available_games).to.equal(132);
+		});
+
+		it('total number of matches in the books', function () {
+			let chain = _.chain(s.book);
+			expect(chain.size().value()).to.equal(s.number_of_weeks);
+
+			chain = chain.flatten();
+			expect(chain.size().value()).to.equal(s.number_of_weeks * s.number_time_slots_per_week);
+
+			chain = chain.flatten();
+			expect(chain.size().value()).to.equal(s.remainingMatches.length);
 		});
 	});
 
