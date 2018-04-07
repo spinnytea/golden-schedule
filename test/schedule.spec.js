@@ -3,20 +3,44 @@ const expect = require('chai').expect;
 const schedule = require('../lib/schedule');
 
 describe('schedule', function () {
-   it('Schedule');
+	describe('Schedule', function () {
+		let s;
+		beforeEach(function () {
+			s = new schedule.Schedule();
+		});
 
-   it('computeAllMatches', function () {
-      const matches = schedule.computeAllMatches();
+		it('number of team-slots per week', function () {
+			const slots_needed = s.number_of_teams * s.number_of_team_games_per_week;
+			const available_slots = s.number_concurrent_games * s.number_time_slots_per_week * s.teams_per_game;
+			expect(slots_needed).to.equal(available_slots);
+		});
 
-      expect(matches.slice(0, 5)).to.deep.equal([
-         [1,2], [1,2],
-         [1,3], [1,3],
-         [1,4],
-      ]);
-      expect(matches.slice(-5)).to.deep.equal([
-         [10,11],
-         [10,12], [10,12],
-         [11,12], [11,12],
-      ]);
-   });
+		it('total number of matches', function () {
+			// XXX (NUMBER_OF_TEAMS choose NUMBER_OF_TEAM_GAMES_PER_WEEK)
+			const teams_choose_games = s.number_of_teams * (s.number_of_teams - 1) / 2;
+			expect(s.number_of_team_games_per_week).to.equal(2);
+			
+			const games_needed = teams_choose_games * s.number_of_pairing_matches;
+			const available_games = s.number_concurrent_games * s.number_time_slots_per_week * s.number_of_weeks;
+			expect(games_needed).to.equal(available_games);
+		});
+	});
+
+	it('computeAllMatches', function () {
+		const matches = schedule.computeAllMatches({
+			number_of_teams: 12,
+			number_of_pairing_matches: 2,
+		});
+
+		expect(matches.slice(0, 5)).to.deep.equal([
+			[1, 2], [1, 2],
+			[1, 3], [1, 3],
+			[1, 4],
+		]);
+		expect(matches.slice(-5)).to.deep.equal([
+			[10, 11],
+			[10, 12], [10, 12],
+			[11, 12], [11, 12],
+		]);
+	});
 });
