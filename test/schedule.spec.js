@@ -129,6 +129,20 @@ describe('schedule', function () {
 				expect(s.calcAllowableMatches({ week: 8, time: 2, arena: 0 }).some((a) => _.isEqual(a, [3, 4]))).to.equal(true);
 				expect(s.calcAllowableMatches({ week: 9, time: 2, arena: 0 }).some((a) => _.isEqual(a, [3, 4]))).to.equal(true);
 				expect(s.calcAllowableMatches({ week: 10, time: 2, arena: 0 }).some((a) => _.isEqual(a, [3, 4]))).to.equal(true);
+
+				setMatch(10, 0, 0, [5, 6]);
+
+				expect(s.calcAllowableMatches({ week: 0, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 1, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 2, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 3, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 4, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 5, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 6, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 7, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 8, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 9, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 10, time: 2, arena: 0 }).some((a) => _.isEqual(a, [5, 6]))).to.equal(false);
 			});
 
 			it('team 6 has only late matches', function () {
