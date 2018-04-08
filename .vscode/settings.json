@@ -15,7 +15,7 @@
 	},
 
 	// extension config
-	"vscode-language-todo.regex": "(//|#|<!--|;|/*)\\s*(TODO|FIXME|XXX|IDEA|HACK|REVIEW|BUG|TEST|QUESTION)\\b",
+	"vscode-language-todo.regex": "(//|#|<!--|;|/*)\\s*(TODO|FIXME|IDEA|HACK|REVIEW|BUG|TEST|QUESTION)\\b",
 	"vscode-language-todo.globs": [
 		"!package-lock.json",
 		"!README.md",

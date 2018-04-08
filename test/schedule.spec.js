@@ -199,6 +199,7 @@ describe('schedule', function () {
 				late: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				split: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
+			expect(s.metrics().early).to.not.have.property('-1'); // bugfix
 
 			s.book[0][0][0] = [1, 2];
 			s.book[0][1][0] = [2, 3];

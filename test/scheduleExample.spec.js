@@ -27,10 +27,44 @@ describe('Schedule Example', function () {
 
 	it('metrics', function () {
 		const metrics = schedule.metrics();
+
 		// confirmed: Team 3: Early 5, Late 3 (csv has Early 6, Late 2)
 		expect(metrics.early).to.deep.equal([4, 3, 5, 3, 4, 0, 5, 3, 7, 3, 5, 2]);
 		expect(metrics.late).to.deep.equal([1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2]);
 		expect(metrics.split).to.deep.equal([6, 7, 3, 0, 4, 0, 5, 1, 4, 1, 6, 7]);
+
+		// each time slot, 4 teams are on the bench
+		// each week, 4 teams have an early game, 4 have a split, and 4 have a late
+		// (team 6 gave up early/split, so everyone else has more of those and less late games)
+		expect(_.sum(metrics.early)).to.equal(4 * schedule.number_of_weeks);
+		expect(_.sum(metrics.late)).to.equal(4 * schedule.number_of_weeks);
+		expect(_.sum(metrics.split)).to.equal(4 * schedule.number_of_weeks);
+
+		for(let t = 0; t<schedule.number_of_teams; t++) {
+			// each week a team plays 2 games
+			// so each week, a team has either early OR late OR split
+			// so all of them combined is 1 per week
+			expect(metrics.early[t] + metrics.late[t] + metrics.split[t]).to.equal(schedule.number_of_weeks);
+		}
+	});
+
+	it('confirm ideal metrics', function () {
+		const metrics = schedule.metrics();
+
+		// since team 6 gets none
+		// 44 (total) / 11 (teams)
+		const averageEarly = (_.sum(metrics.early) - metrics.early[schedule.TEAM_6_POS]) / (schedule.number_of_teams - 1);
+		expect(averageEarly).to.equal(4);
+
+		// since team 6 always gets them
+		// 33 (remaining) / 11 (teams)
+		const averageLate = (_.sum(metrics.late) - metrics.late[schedule.TEAM_6_POS]) / (schedule.number_of_teams - 1);
+		expect(averageLate).to.equal(3);
+
+		// since team 6 gets none
+		// 44 (total) / 11 (teams)
+		const averageSplit = (_.sum(metrics.split) - metrics.split[schedule.TEAM_6_POS]) / (schedule.number_of_teams - 1);
+		expect(averageSplit).to.equal(4);
 	});
 
 	// Pump it full of data
