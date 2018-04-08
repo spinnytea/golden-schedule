@@ -41,6 +41,21 @@ describe('schedule', function () {
 			expect(chain.size().value()).to.equal(s.remainingMatches.length);
 		});
 
+		it('clone', function () {
+			s.book[0][0][0] = s.remainingMatches.pop();
+
+			const c = s.clone();
+
+			expect(c).to.deep.equal(s);
+
+			c.book[0][0][1] = c.remainingMatches.pop();
+
+			expect(c).to.not.deep.equal(s);
+			expect(c.remainingMatches.length).to.equal(s.remainingMatches.length - 1);
+			expect(c.book[0][0][0]).to.deep.equal(s.book[0][0][0]);
+			expect(c.book[0][0][1]).to.not.deep.equal(s.book[0][0][1]);
+		});
+
 		it('finished', function () {
 			expect(s.finished).to.equal(false);
 			s.remainingMatches.splice(0);
