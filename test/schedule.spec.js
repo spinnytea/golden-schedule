@@ -86,6 +86,25 @@ describe('schedule', function () {
 				expect(_.find(s.remainingMatches, _.matches([1, 2]))).to.not.equal(m); // it's not the one we already found
 			});
 		});
+
+		it('metrics', function () {
+			expect(s.metrics()).to.deep.equal({
+				early: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				late: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				split: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			});
+
+			s.book[0][0][0] = [1, 2];
+			s.book[0][1][0] = [2, 3];
+			s.book[0][2][0] = [1, 3];
+			s.book[0][2][1] = [4, 5];
+
+			expect(s.metrics()).to.deep.equal({
+				early: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				late: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				split: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			});
+		});
 	});
 
 	it('computeAllMatches', function () {
