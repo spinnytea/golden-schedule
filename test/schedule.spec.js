@@ -10,6 +10,10 @@ describe('schedule', function () {
 			s = new schedule.Schedule();
 			s.init();
 		});
+		function setMatch(week, time, arena, match) {
+			const m = _.find(s.remainingMatches, _.matches(match));
+			s.setMatch({ week, time, arena }, m);
+		}
 
 		it('number of team-slots per week', function () {
 			const slots_needed = s.number_of_teams * s.number_of_team_games_per_week;
@@ -60,6 +64,65 @@ describe('schedule', function () {
 			expect(s.finished).to.equal(false);
 			s.remainingMatches.splice(0);
 			expect(s.finished).to.equal(true);
+		});
+
+		describe('calcAllowableMatches', function () {
+			it('empty allows all', function () {
+				// we need to use the middle time slot since team 6 isn't allowed there
+				const allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 0 });
+				expect(allowable).to.deep.equal(s.remainingMatches);
+			});
+
+			it('nothing is allowed if already booked - OR - ignore current booking for allowable calculation');
+
+			it('team once per time slot on a given week', function () {
+				setMatch(0, 1, 0, [1, 2]);
+
+				let allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 2 });
+				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+				setMatch(0, 1, 1, [3, 4]);
+
+				allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 2 });
+				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([5, 6, 7, 8, 9, 10, 11, 12]);
+			});
+
+			it('team twice per week', function () {
+				setMatch(0, 0, 0, [1, 2]);
+				setMatch(0, 1, 0, [1, 3]);
+
+				let allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 0 });
+				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+				setMatch(0, 0, 1, [3, 4]);
+				setMatch(0, 1, 1, [2, 4]);
+
+				allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 0 });
+				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([5, 6, 7, 8, 9, 10, 11, 12]);
+			});
+
+			it('delayed rematch', function () {
+				setMatch(5, 0, 0, [1, 2]);
+
+				expect(s.calcAllowableMatches({ week: 0, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 1, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 2, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 3, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 4, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 5, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 6, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 7, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(false);
+				expect(s.calcAllowableMatches({ week: 8, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 9, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+				expect(s.calcAllowableMatches({ week: 10, time: 2, arena: 0 }).some((a) => _.isEqual(a, [1, 2]))).to.equal(true);
+			});
+
+			it('team 6 has only late matches', function () {
+				const allowable = s.calcAllowableMatches({ week: 0, time: 0, arena: 0 });
+				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]);
+			});
+
+			it('check for only one match'); // fill in with example; schedule match and check failure
 		});
 
 		describe('setMatch', function () {
