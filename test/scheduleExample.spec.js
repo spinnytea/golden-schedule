@@ -4,7 +4,7 @@
  */
 'use strict';
 const _ = require('lodash');
-const debug = require('debug')('golden-schedule:schedule-example');
+const debug = require('debug')('golden-schedule:scheduleExample');
 const expect = require('chai').expect;
 const Schedule = require('../lib/schedule').Schedule;
 
@@ -180,14 +180,14 @@ describe('Schedule Example', function () {
 		setMatch(10, 2, 3, [4, 10]);
 	}
 	function setMatch(week, time, arena, match) {
-		const struct = { week, time, arena };
+		const coords = { week, time, arena };
 
 		if(debug.enabled) {
-			let available = schedule.calcAllowableMatches(struct);
-			debug('available matches', struct, available.length);
+			let available = schedule.calcAllowableMatches(coords);
+			debug('available matches', coords, available.length);
 		}
 
 		const m = _.find(schedule.remainingMatches, _.matches(match));
-		schedule.setMatch(struct, m);
+		schedule.setMatch(coords, m);
 	}
 });
