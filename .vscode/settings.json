@@ -1,0 +1,23 @@
+{
+	// functionality settings
+	"files.trimTrailingWhitespace": true,
+	"eslint.autoFixOnSave": true,
+	"editor.insertSpaces": false,
+   "editor.detectIndentation": false,
+
+	// speed improvements
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/node_modules/**": true,
+		"dist/**": true,
+		"coverage/**": true,
+	},
+
+	// extension config
+	"vscode-language-todo.regex": "(//|#|<!--|;|/*)\\s*(TODO|FIXME|XXX|IDEA|HACK|REVIEW|BUG|TEST|QUESTION)\\b",
+	"vscode-language-todo.globs": [
+		"!package-lock.json",
+		"!README.md",
+	],
+}

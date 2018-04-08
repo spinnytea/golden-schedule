@@ -22,7 +22,7 @@ describe('schedule', function () {
 			// XXX (NUMBER_OF_TEAMS choose NUMBER_OF_TEAM_GAMES_PER_WEEK)
 			const teams_choose_games = s.number_of_teams * (s.number_of_teams - 1) / 2;
 			expect(s.number_of_team_games_per_week).to.equal(2);
-			
+
 			const games_needed = teams_choose_games * s.number_of_pairing_matches;
 			const available_games = s.number_concurrent_games * s.number_time_slots_per_week * s.number_of_weeks;
 			expect(games_needed).to.equal(available_games);
