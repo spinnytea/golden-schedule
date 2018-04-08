@@ -8,6 +8,7 @@ describe('schedule', function () {
 		let s;
 		beforeEach(function () {
 			s = new schedule.Schedule();
+			s.init();
 		});
 
 		it('number of team-slots per week', function () {
@@ -38,6 +39,52 @@ describe('schedule', function () {
 
 			chain = chain.flatten();
 			expect(chain.size().value()).to.equal(s.remainingMatches.length);
+		});
+
+		it('finished', function () {
+			expect(s.finished).to.equal(false);
+			s.remainingMatches.splice(0);
+			expect(s.finished).to.equal(true);
+		});
+
+		describe('setMatch', function () {
+			it('not provided', function () {
+				expect(function () {
+					s.setMatch({ week: 0, time: 0, arena: 0 }, undefined);
+				}).to.throw('match not provided');
+			});
+
+			it('spot already booked', function () {
+				const m = _.find(s.remainingMatches, _.matches([1, 2]));
+				s.book[0][0][0] = 'something is here';
+
+				expect(function () {
+					s.setMatch({ week: 0, time: 0, arena: 0 }, m);
+				}).to.throw('this spot is already booked');
+			});
+
+			it('match not available', function () {
+				expect(function () {
+					s.setMatch({ week: 0, time: 0, arena: 0 }, 'strings are not matches');
+				}).to.throw('this match is not available');
+
+				expect(function () {
+					s.setMatch({ week: 0, time: 0, arena: 0 }, [1, 2]); // must be exact object match (not similar array)
+				}).to.throw('this match is not available');
+			});
+
+			it('success', function () {
+				expect(s.remainingMatches.length).to.equal(132); // all our matches
+				expect(s.book[0][0][0]).to.equal(null); // not booked yet
+
+				const m = _.find(s.remainingMatches, _.matches([1, 2]));
+				s.setMatch({ week: 0, time: 0, arena: 0 }, m);
+
+				expect(s.remainingMatches.length).to.equal(131); // it's not in the remaining list anymore
+				expect(s.book[0][0][0]).to.equal(m); // we set it
+				expect(_.find(s.remainingMatches, _.matches([1, 2]))).to.deep.equal([1, 2]); // there is another
+				expect(_.find(s.remainingMatches, _.matches([1, 2]))).to.not.equal(m); // it's not the one we already found
+			});
 		});
 	});
 
