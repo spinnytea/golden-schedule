@@ -180,7 +180,14 @@ describe('Schedule Example', function () {
 		setMatch(10, 2, 3, [4, 10]);
 	}
 	function setMatch(week, time, arena, match) {
+		const struct = { week, time, arena };
+
+		if(debug.enabled) {
+			let available = schedule.calcAllowableMatches(struct);
+			debug('available matches', struct, available.length);
+		}
+
 		const m = _.find(schedule.remainingMatches, _.matches(match));
-		schedule.setMatch({ week, time, arena }, m);
+		schedule.setMatch(struct, m);
 	}
 });
