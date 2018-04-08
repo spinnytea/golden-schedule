@@ -18,6 +18,14 @@ describe('Schedule Example', function () {
 		expect(schedule.finished).to.equal(true);
 	});
 
+	it('metrics', function () {
+		const metrics = schedule.metrics();
+		// confirmed: Team 3: Early 5, Late 3 (csv has Early 6, Late 2)
+		expect(metrics.early).to.deep.equal([4, 3, 5, 3, 4, 0, 5, 3, 7, 3, 5, 2]);
+		expect(metrics.late).to.deep.equal([1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2]);
+		expect(metrics.split).to.deep.equal([6, 7, 3, 0, 4, 0, 5, 1, 4, 1, 6, 7]);
+	});
+
 	// Pump it full of data
 	function setupMatches() {
 		// June 1
