@@ -150,7 +150,33 @@ describe('schedule', function () {
 				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]);
 			});
 
-			it('check for only one match'); // fill in with example; schedule match and check empty
+			it('check for only one match', function () {
+				// fill in with example
+				setMatch(0, 0, 0, [2, 12]);
+				setMatch(0, 0, 1, [4, 11]);
+				setMatch(0, 0, 2, [7, 8]);
+				setMatch(0, 0, 3, [5, 9]);
+				setMatch(0, 1, 0, [3, 12]);
+				setMatch(0, 1, 1, [4, 10]);
+				setMatch(0, 1, 2, [1, 7]);
+				setMatch(0, 1, 3, [6, 9]);
+				setMatch(0, 2, 0, [3, 11]);
+				setMatch(0, 2, 1, [5, 10]);
+				setMatch(0, 2, 2, [1, 2]);
+				// setMatch(0, 2, 3, [6, 8]);
+
+				// there is only one option now, all other teams have played
+				let allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 3 });
+				expect(allowable).to.deep.equal([[6, 8], [6, 8]]);
+
+
+				// schedule the last available match on a nearby day
+				setMatch(1, 0, 0, [6, 8]);
+
+				// this means there are no available matches for the last slot on this day
+				allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 3 });
+				expect(allowable).to.deep.equal([]);
+			});
 		});
 
 		describe('setMatch', function () {
