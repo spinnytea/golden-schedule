@@ -51,4 +51,25 @@ describe('BookIterator', function () {
 		expect(bookIterator.arena).to.equal(0);
 		expect(bookIterator.done).to.equal(true);
 	});
+
+	describe('forEach', function () {
+		it('normal', function () {
+			let count = 0;
+			bookIterator.forEach(() => count++);
+			expect(count).to.equal(4*3*2);
+		});
+
+		it('start part way', function () {
+			let count = 0;
+			bookIterator.current = { week: 4, time: 2, arena: 0 };
+			bookIterator.forEach(() => count++);
+			expect(count).to.equal(2);
+		});
+
+		it('stop early', function () {
+			let count = 0;
+			bookIterator.forEach(() => (++count !== 13));
+			expect(count).to.equal(13);
+		});
+	});
 });

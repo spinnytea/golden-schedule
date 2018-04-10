@@ -16,3 +16,4 @@ console.log(schedule.prettyPrint({
 let node = new GraphNode(schedule);
 console.log(node.metrics);
 console.log('deadEnd', node.deadEnd);
+console.log('heuristic', node.heuristic);
