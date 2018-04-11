@@ -70,7 +70,8 @@ describe('schedule', function () {
 			it('empty allows all', function () {
 				// we need to use the middle time slot since team 6 isn't allowed there
 				const allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 0 });
-				expect(allowable).to.deep.equal(s.remainingMatches);
+				expect(allowable).to.deep.equal(_.uniqWith(s.remainingMatches, _.isEqual));
+				expect(allowable.length).to.equal(s.remainingMatches.length / 2);
 			});
 
 			it('nothing is allowed if already booked - OR - ignore current booking for allowable calculation');
@@ -167,7 +168,7 @@ describe('schedule', function () {
 
 				// there is only one option now, all other teams have played
 				let allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 3 });
-				expect(allowable).to.deep.equal([[6, 8], [6, 8]]);
+				expect(allowable).to.deep.equal([[6, 8]]);
 
 
 				// schedule the last available match on a nearby day
