@@ -8,6 +8,13 @@ describe('BookIterator', function () {
 		bookIterator = new BookIterator({ number_of_weeks: 4, number_time_slots_per_week: 3, number_concurrent_games: 2 });
 	});
 
+	it('constructor with coords', function () {
+		const schedule = { number_of_weeks: 3, number_time_slots_per_week: 3, number_concurrent_games: 3 };
+		const coords = { week: 1, time: 1, arena: 1 };
+		bookIterator = new BookIterator(schedule, coords);
+		expect(bookIterator.current).to.deep.equal({ week: 1, time: 1, arena: 1 });
+	});
+
 	it('get current', function () {
 		expect(bookIterator.current).to.deep.equal({ week: 0, time: 0, arena: 0 });
 		expect(bookIterator.current).to.not.equal(bookIterator);

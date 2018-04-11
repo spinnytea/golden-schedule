@@ -1,19 +1,23 @@
 'use strict';
-const _ = require('lodash'); void(_);
-const BookIterator = require('./lib/bookIterator').BookIterator; void(BookIterator);
-const GraphNode = require('./lib/graphNode').GraphNode; void(GraphNode);
-const Schedule = require('./lib/schedule').Schedule; void(Schedule);
+const GraphExpander = require('./lib/graphExpander').GraphExpander;
 
-const schedule = new Schedule();
-schedule.init();
+let graphExpander = new GraphExpander();
+const prevExpanders = [];
+console.log(graphExpander.getStateStr('init'));
 
-console.log(schedule.prettyPrint({
+for(let i = 0; i < 1001 && graphExpander; i++) {
+	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
+	prevExpanders.push(graphExpander);
+	graphExpander = graphExpander.tryNext();
+
+	if(!graphExpander) {
+		prevExpanders.pop();
+		graphExpander = prevExpanders.pop();
+	}
+}
+
+console.log((graphExpander || prevExpanders.pop()).node.schedule.prettyPrint({
 	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 10', 'August 3'],
 	time: ['6:30', '7:40', '8:50'],
 	arena: ['A', 'B', 'C', 'D'],
-}, 'availableMatchCount'));
-
-let node = new GraphNode(schedule);
-console.log(node.metrics);
-console.log('deadEnd', node.deadEnd);
-console.log('heuristic', node.heuristic);
+}));
