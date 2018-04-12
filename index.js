@@ -6,7 +6,16 @@ const prevExpanders = [];
 
 console.time('expanding');
 
-for(let i = 0; i < 1001; i++) {
+// week 1
+// graphExpander = graphExpander
+// 	.setNext([2, 12]).setNext([4, 11]).setNext([7, 8]).setNext([5, 9]);
+// 	.setNext([3, 12]).setNext([4, 10]).setNext([1, 7]).setNext([6, 9])
+// 	.setNext([3, 11]).setNext([5, 10]).setNext([1, 2]).setNext([6, 8]);
+
+// the first time slot really doesn't matter
+graphExpander = graphExpander.tryNext().tryNext().tryNext().tryNext();
+
+for(let i = 0; i <= 1000; i++) {
 	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
 	prevExpanders.push(graphExpander);
 	graphExpander = graphExpander.tryNext();

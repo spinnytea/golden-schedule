@@ -80,12 +80,12 @@ describe('schedule', function () {
 				setMatch(0, 1, 0, [1, 2]);
 
 				let allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 2 });
-				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+				expect(_.chain(allowable).flatten().uniq().value()).to.have.members([3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 
 				setMatch(0, 1, 1, [3, 4]);
 
 				allowable = s.calcAllowableMatches({ week: 0, time: 1, arena: 2 });
-				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([5, 6, 7, 8, 9, 10, 11, 12]);
+				expect(_.chain(allowable).flatten().uniq().value()).to.have.members([5, 6, 7, 8, 9, 10, 11, 12]);
 			});
 
 			it('team twice per week', function () {
@@ -93,13 +93,13 @@ describe('schedule', function () {
 				setMatch(0, 1, 0, [1, 3]);
 
 				let allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 0 });
-				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+				expect(_.chain(allowable).flatten().uniq().value()).to.have.members([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 
 				setMatch(0, 0, 1, [3, 4]);
 				setMatch(0, 1, 1, [2, 4]);
 
 				allowable = s.calcAllowableMatches({ week: 0, time: 2, arena: 0 });
-				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([5, 6, 7, 8, 9, 10, 11, 12]);
+				expect(_.chain(allowable).flatten().uniq().value()).to.have.members([5, 6, 7, 8, 9, 10, 11, 12]);
 			});
 
 			it('delayed rematch', function () {
@@ -148,7 +148,7 @@ describe('schedule', function () {
 
 			it('team 6 has only late matches', function () {
 				const allowable = s.calcAllowableMatches({ week: 0, time: 0, arena: 0 });
-				expect(_.chain(allowable).flatten().uniq().value()).to.deep.equal([1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]);
+				expect(_.chain(allowable).flatten().uniq().value()).to.have.members([1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]);
 			});
 
 			it('check for only one match', function () {
