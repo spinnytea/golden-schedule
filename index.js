@@ -43,4 +43,9 @@ console.log(graphExpander.node.schedule.prettyPrint({
 	arena: ['A', 'B', 'C', 'D'],
 }));
 
+// BUG this can't finish the graph!
+// console.log(graphExpander.node.schedule.remainingMatches); // [ [ 4, 12 ] ]
+// console.log(graphExpander.node.schedule.calcAllowableMatches({ week: 10, time: 2, arena: 3 })); // [ [ 4, 12 ] ]
+
+
 console.timeEnd('expanding');
