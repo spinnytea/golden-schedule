@@ -13,9 +13,9 @@
 // IDEA try starting with the example solution sans issues
 // - so like, teams 1, 2, 11, 12 are the worst offenders, drop all their games and fill in schedule
 // - we need to update the graphExpander to skip over matchups that have already been filled in
-const GraphExpander = require('./lib/graphExpander').GraphExpander;
+const SimpleGraphExpander = require('./lib/graphExpander').SimpleGraphExpander;
 
-let graphExpander = new GraphExpander();
+let graphExpander = new SimpleGraphExpander();
 
 console.time('expanding');
 

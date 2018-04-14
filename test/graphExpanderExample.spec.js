@@ -6,7 +6,7 @@
 const _ = require('lodash');
 const debug = require('debug')('golden-schedule:scheduleExample');
 const expect = require('chai').expect;
-const GraphExpander = require('../lib/graphExpander').GraphExpander;
+const SimpleGraphExpander = require('../lib/graphExpander').SimpleGraphExpander;
 const GraphNode = require('../lib/graphNode').GraphNode;
 const Schedule = require('../lib/schedule').Schedule;
 
@@ -22,8 +22,14 @@ describe('Graph Expander Example', function () {
 		}));
 	});
 
-	// TODO the example needs relaxed metrics (max split/early/late)
-	it.skip('bugfix: tryNext on last', function () {
+	it('check original maxes', function () {
+		const exported = require('../lib/schedule').MAX_EARLY;
+		expect(initializeSchedule.MAX_EARLY).to.equal(initializeSchedule.number_of_weeks);
+		expect((new Schedule()).MAX_EARLY).to.equal(exported);
+		expect(initializeSchedule.MAX_EARLY).to.be.gt(exported);
+	});
+
+	it('bugfix: tryNext on last', function () {
 		expect(graphExpander.finished).to.equal(false);
 		expect(graphExpander.coords).to.deep.equal({ week: 10, time: 2, arena: 3 });
 		expect(graphExpander.node.schedule.remainingMatches).to.deep.equal([[4, 10]]);
@@ -40,6 +46,9 @@ describe('Graph Expander Example', function () {
 	const initializeSchedule = new Schedule();
 	function setupMatches() {
 		initializeSchedule.init();
+		initializeSchedule.MAX_EARLY = initializeSchedule.number_of_weeks;
+		initializeSchedule.MAX_LATE = initializeSchedule.number_of_weeks;
+		initializeSchedule.MAX_SPLIT = initializeSchedule.number_of_weeks;
 
 		// June 1
 		setMatch(0, 0, 0, [2, 12]);
@@ -185,7 +194,7 @@ describe('Graph Expander Example', function () {
 		setMatch(10, 2, 2, [7, 11]);
 		// setMatch(10, 2, 3, [4, 10]);
 
-		graphExpander = new GraphExpander(new GraphNode(initializeSchedule), { week: 10, time: 2, arena: 3 });
+		graphExpander = new SimpleGraphExpander(new GraphNode(initializeSchedule), { week: 10, time: 2, arena: 3 });
 	}
 	function setMatch(week, time, arena, match) {
 		const coords = { week, time, arena };
