@@ -2,21 +2,20 @@
 // IDEA are there other was to frame the problem
 // IDEA are there other existing solitions out there?
 // IDEA are there was to transform an existing schedule?
-// - team swapping, time swapping, field swapping; they all have the same metrics
-// - how do we change the metrics?
-// - FIXME within a given time slot, arena order does not matter
-// - - given 4 matches that occur, there are 4! or 24 different ways to arrange them, it's all the same in the end
-// - - if we ignore heuristic for a moment, we could make a loop like for(i=0) for(j=i+1) for(k=j+1) for(l=k+1)
-// - - or, maybe heuristic is independent of allowable options, sans the 'no team plays twice in one time slot'
-// - FIXME time slot 1 & 2 are interchangable (since team 6 requires late, 0 cannot be freely swapped)
-// - - this changes the metrics for a given day, so it's not 'free'
-// - - maybe we can use this fact to change the metrics for the example
+// - team swapping doesn't rreeaallyy matter, because once you fill in the first time slot of the first week, we've started a path
+// - time swapping changes the metrics, so it's not a free transform (it's one of our struggles, actually)
+// - FIXME arena swaping: within a given time slot, arena order does not matter
+//   - given 4 matches that occur, there are 4! or 24 different ways to arrange them, it's all the same in the end
+//   - if we ignore heuristic for a moment, we could make a loop like for(i=0) for(j=i+1) for(k=j+1) for(l=k+1)
+//   - maybe heuristic is independent of allowable options, sans the 'no team plays twice in one time slot'
+//   - otherwise we need remember 'all the matchups in sorted order' and somehow skip those
+//   - which sounds like it would amount to filling them all in anyway and then skipping htem afterwards...
 // IDEA try starting with the example solution sans issues
 // - so like, teams 1, 2, 11, 12 are the worst offenders, drop all their games and fill in schedule
+// - we need to update the graphExpander to skip over matchups that have already been filled in
 const GraphExpander = require('./lib/graphExpander').GraphExpander;
 
 let graphExpander = new GraphExpander();
-const prevExpanders = [];
 
 console.time('expanding');
 
@@ -29,10 +28,8 @@ console.time('expanding');
 // the first time slot really doesn't matter
 graphExpander = graphExpander.tryNext().tryNext().tryNext().tryNext();
 
-// REVIEW it hangs around "near the end of the week" or "the last time slot of the week"
-// - on the #10 or #8 or #6 depending on constraints, but always near the end
-// - it's this a common issue in algorithms, spending excessive time in the leaf nodes?
-// TODO optimize final week selection independent of main strategy
+// FIXME move this into graphExpander
+const prevExpanders = [];
 for(let i = 0; !graphExpander.finished && i <= 1000; i++) {
 	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
 	prevExpanders.push(graphExpander);
