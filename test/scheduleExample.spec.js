@@ -129,6 +129,15 @@ describe('Schedule Example', function () {
 					maxLate: 8,
 					maxSplit: 5,
 				});
+				s.swapTeams([1, 2, 3, 5, 4, 6, 7, 8, 9, 10, 11, 12]);
+				expect(s.calcMetrics()).to.deep.equal({
+					early: [5, 5, 3, 3, 3, 0, 5, 1, 6, 2, 6, 5],
+					late: [1, 1, 3, 3, 8, 11, 1, 7, 0, 7, 0, 2],
+					split: [5, 5, 5, 5, 0, 0, 5, 3, 5, 2, 5, 4],
+					maxEarly: 6,
+					maxLate: 8,
+					maxSplit: 5,
+				});
 
 				// console.log(s.prettyMetrics());
 
