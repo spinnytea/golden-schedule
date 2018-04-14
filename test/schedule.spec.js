@@ -221,19 +221,19 @@ describe('schedule', function () {
 		});
 
 		it('metrics', function () {
-			expect(s.metrics).to.deep.equal({
+			expect(s.calcMetrics()).to.deep.equal({
 				early: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				late: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				split: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
-			expect(s.metrics.early).to.not.have.property('-1'); // bugfix
+			expect(s.calcMetrics().early).to.not.have.property('-1'); // bugfix
 
 			setMatch(0, 0, 0, [1, 2]);
 			setMatch(0, 1, 0, [2, 3]);
 			setMatch(0, 2, 0, [1, 3]);
 			setMatch(0, 2, 1, [4, 5]);
 
-			expect(s.metrics).to.deep.equal({
+			expect(s.calcMetrics()).to.deep.equal({
 				early: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				late: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				split: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

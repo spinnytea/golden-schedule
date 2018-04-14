@@ -26,7 +26,7 @@ describe('Schedule Example', function () {
 	});
 
 	it('metrics', function () {
-		const metrics = schedule.metrics;
+		const metrics = schedule.calcMetrics();
 
 		// confirmed: Team 3: Early 5, Late 3 (csv has Early 6, Late 2)
 		expect(metrics.early).to.deep.equal([4, 3, 5, 3, 4, 0, 5, 3, 7, 3, 5, 2]);
@@ -49,7 +49,7 @@ describe('Schedule Example', function () {
 	});
 
 	it('confirm ideal metrics', function () {
-		const metrics = schedule.metrics;
+		const metrics = schedule.calcMetrics();
 
 		// since team 6 gets none
 		// 44 (total) / 11 (teams)
