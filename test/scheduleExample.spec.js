@@ -48,19 +48,19 @@ describe('Schedule Example', function () {
 		}
 	});
 
-	it('swapTime', function () {
+	it('swapLate', function () {
 		const a = [[6, 8], [2, 5], [1, 7], [3, 4]];
 		const b = [[6, 12], [5, 9], [7, 11], [4, 10]];
+		const s = schedule.clone();
+
+		s.swapLate(10);
 
 		expect(schedule.book[10][1]).to.deep.equal(a);
 		expect(schedule.book[10][2]).to.deep.equal(b);
+		expect(s.book[10][1]).to.deep.equal(b);
+		expect(s.book[10][2]).to.deep.equal(a);
 
-		schedule.swapTime(10, 1, 2);
-
-		expect(schedule.book[10][1]).to.deep.equal(b);
-		expect(schedule.book[10][2]).to.deep.equal(a);
-
-		const metrics = schedule.calcMetrics();
+		const metrics = s.calcMetrics();
 		expect(metrics.early).to.deep.equal([3, 2, 4, 3, 4, 0, 5, 2, 8, 4, 6, 3]);
 		expect(metrics.late).to.deep.equal([1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2]);
 		expect(metrics.split).to.deep.equal([7, 8, 4, 0, 4, 0, 5, 2, 3, 0, 5, 6]);
@@ -83,6 +83,54 @@ describe('Schedule Example', function () {
 		// 44 (total) / 11 (teams)
 		const averageSplit = (_.sum(metrics.split) - metrics.split[schedule.TEAM_6_POS]) / (schedule.number_of_teams - 1);
 		expect(averageSplit).to.equal(4);
+	});
+
+	describe('try all swaps', function () {
+		describe('crunch options', function () {
+			let bestName = null;
+			let bestMetrics = null;
+			let bestMetaMetric = Infinity;
+			after(function () {
+				console.log('best', bestName, bestMetaMetric, bestMetrics);
+			});
+
+			// to enable tests, just set the number of weeks to check
+			const weeks = 0; // to really run, set to 11; it takes a while
+			const maxIters = Math.pow(2, weeks);
+			if(weeks) for(let i = 0; i < maxIters; i++) {
+				let name = _.padStart(i.toString(2), 11, 0);
+				it.only(name, function () {
+					const s = schedule.clone();
+					s.swapLate(name);
+
+					const metrics = s.calcMetrics();
+					const metaMetric = metrics.maxEarly + metrics.maxLate + metrics.maxSplit;
+					// const metaMetric = metrics.maxSplit;
+					if(metaMetric < bestMetaMetric) {
+						bestName = name;
+						bestMetrics = metrics;
+						bestMetaMetric = metaMetric;
+					}
+				});
+			}
+		});
+
+		// these are swaps from the original example
+		describe('saved', function () {
+			// coincidentally, this is the best for bestMeta of _.sum(max) and of maxSplit
+			it('00100101101', function () {
+				const s = schedule.clone();
+				s.swapLate('00100101101');
+				expect(s.calcMetrics()).to.deep.equal({
+					early: [5, 5, 3, 3, 3, 0, 5, 1, 6, 2, 6, 5],
+					late: [1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2],
+					split: [5, 5, 5, 0, 5, 0, 5, 3, 5, 2, 5, 4],
+					maxEarly: 6,
+					maxLate: 8,
+					maxSplit: 5,
+				});
+			});
+		});
 	});
 
 	// Pump it full of data
