@@ -48,6 +48,24 @@ describe('Schedule Example', function () {
 		}
 	});
 
+	it('swapTime', function () {
+		const a = [[6, 8], [2, 5], [1, 7], [3, 4]];
+		const b = [[6, 12], [5, 9], [7, 11], [4, 10]];
+
+		expect(schedule.book[10][1]).to.deep.equal(a);
+		expect(schedule.book[10][2]).to.deep.equal(b);
+
+		schedule.swapTime(10, 1, 2);
+
+		expect(schedule.book[10][1]).to.deep.equal(b);
+		expect(schedule.book[10][2]).to.deep.equal(a);
+
+		const metrics = schedule.calcMetrics();
+		expect(metrics.early).to.deep.equal([3, 2, 4, 3, 4, 0, 5, 2, 8, 4, 6, 3]);
+		expect(metrics.late).to.deep.equal([1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2]);
+		expect(metrics.split).to.deep.equal([7, 8, 4, 0, 4, 0, 5, 2, 3, 0, 5, 6]);
+	});
+
 	it('confirm ideal metrics', function () {
 		const metrics = schedule.calcMetrics();
 
