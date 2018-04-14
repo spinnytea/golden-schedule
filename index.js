@@ -4,6 +4,13 @@
 // IDEA are there was to transform an existing schedule?
 // - team swapping, time swapping, field swapping; they all have the same metrics
 // - how do we change the metrics?
+// - FIXME within a given time slot, arena order does not matter
+// - - given 4 matches that occur, there are 4! or 24 different ways to arrange them, it's all the same in the end
+// - - if we ignore heuristic for a moment, we could make a loop like for(i=0) for(j=i+1) for(k=j+1) for(l=k+1)
+// - - or, maybe heuristic is independent of allowable options, sans the 'no team plays twice in one time slot'
+// - FIXME time slot 1 & 2 are interchangable (since team 6 requires late, 0 cannot be freely swapped)
+// - - this changes the metrics for a given day, so it's not 'free'
+// - - maybe we can use this fact to change the metrics for the example
 // IDEA try starting with the example solution sans issues
 // - so like, teams 1, 2, 11, 12 are the worst offenders, drop all their games and fill in schedule
 const GraphExpander = require('./lib/graphExpander').GraphExpander;
@@ -42,10 +49,5 @@ console.log(graphExpander.node.schedule.prettyPrint({
 	time: ['6:30', '7:40', '8:50'],
 	arena: ['A', 'B', 'C', 'D'],
 }));
-
-// BUG this can't finish the graph!
-// console.log(graphExpander.node.schedule.remainingMatches); // [ [ 4, 12 ] ]
-// console.log(graphExpander.node.schedule.calcAllowableMatches({ week: 10, time: 2, arena: 3 })); // [ [ 4, 12 ] ]
-
 
 console.timeEnd('expanding');
