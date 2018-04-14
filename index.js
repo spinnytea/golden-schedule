@@ -1,4 +1,11 @@
 'use strict';
+// IDEA are there other was to frame the problem
+// IDEA are there other existing solitions out there?
+// IDEA are there was to transform an existing schedule?
+// - team swapping, time swapping, field swapping; they all have the same metrics
+// - how do we change the metrics?
+// IDEA try starting with the example solution sans issues
+// - so like, teams 1, 2, 11, 12 are the worst offenders, drop all their games and fill in schedule
 const GraphExpander = require('./lib/graphExpander').GraphExpander;
 
 let graphExpander = new GraphExpander();
@@ -15,6 +22,10 @@ console.time('expanding');
 // the first time slot really doesn't matter
 graphExpander = graphExpander.tryNext().tryNext().tryNext().tryNext();
 
+// REVIEW it hangs around "near the end of the week" or "the last time slot of the week"
+// - on the #10 or #8 or #6 depending on constraints, but always near the end
+// - it's this a common issue in algorithms, spending excessive time in the leaf nodes?
+// TODO optimize final week selection independent of main strategy
 for(let i = 0; i <= 1000; i++) {
 	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
 	prevExpanders.push(graphExpander);
