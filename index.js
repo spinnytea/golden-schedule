@@ -26,7 +26,7 @@ graphExpander = graphExpander.tryNext().tryNext().tryNext().tryNext();
 // - on the #10 or #8 or #6 depending on constraints, but always near the end
 // - it's this a common issue in algorithms, spending excessive time in the leaf nodes?
 // TODO optimize final week selection independent of main strategy
-for(let i = 0; i <= 1000; i++) {
+for(let i = 0; !graphExpander.finished && i <= 1000; i++) {
 	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
 	prevExpanders.push(graphExpander);
 	graphExpander = graphExpander.tryNext();
