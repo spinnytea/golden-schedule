@@ -44,8 +44,8 @@ for(let i = 0; !graphExpander.finished && i <= 1000; i++) {
 	}
 }
 
-console.log(graphExpander.node.schedule.prettyPrint({
-	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 10', 'August 3'],
+console.log(graphExpander.node.schedule.prettyBook({
+	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 3', 'August 10'],
 	time: ['6:30', '7:40', '8:50'],
 	arena: ['A', 'B', 'C', 'D'],
 }));
