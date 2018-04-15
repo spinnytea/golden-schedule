@@ -1,12 +1,10 @@
 # Overview
 
-This schedule was hard fought. It took many hours of watching and incremental snapshots. That doesn't mean it should be chose above all others, but it is the most evenly split.
+This schedule was hard fought. It took many hours of watching and incremental snapshots. That doesn't mean it should be chose above all others, but it is the most evenly split on all categories. I don't know the hard maths to prove it, but given that Team 6 has 0-11-0, this might actually be an optimal solution (there may not be a way to improve upon the distribution).
 
-Just as Option 1, we can swap teams around if needed, but there are only 2 teams with anomalies.
+Just as Option 1, we can swap teams around if needed, but there are only 2 teams with anomalies. Team 9 has more early over late games, Team 12 has more late over early games, all other early/late/split metrics are equal.
 
 # Metrics
-
-Team 9 has more early over late games, Team 12 has more late over early games, all other early/late/split metrics are equal.
 
 | Team  | Early | Late  | Split |
 |-------|-------|-------|-------|

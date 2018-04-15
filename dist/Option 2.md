@@ -1,8 +1,10 @@
 # Overview
 
-Finally, playing with the numbers and output has payed off. I had to do this in pieces, but it's an overall improvement on last year's schedule. Now the splits are all even, all 2 - 5.
+Playing with the numbers and output produced a solution. I had to do this in pieces, but it's an overall improvement on last year's schedule. It isn't too hard to produce more schedules like this if this kind of variation is desireable.
 
-Just as Option 1, we can swap teams around if needed, but there isn't as much variation anymore.
+It's a lot like Option 1, but it's a little bit tighter. The highs and lows aren't at exremes so overall it's more even.
+
+Just as Option 1, we can swap teams around if needed. For example, Team 5 may benefit from having 2 splits, so I could swap it with team 11 (this way they can spend less time away from home, overall). Maybe Team 5 would benefit from having more late games, so I could swap them with Team 1 (fewer times they need to show up when the even starts).
 
 # Metrics
 

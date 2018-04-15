@@ -1,15 +1,13 @@
 # Overview
 
 I didn't come up with a brand new schedule.
-But given last years schedule, I swapped the time slots of games across the weeks. (Given that team 6 can only have late games, this means I only swapped the late games). Using this method, this is the best I could come up with. With this method, I've dropped the max split games from 7 down to 5.
+But given last years schedule, I swapped the time slots of games across the weeks. (Given that team 6 can only have late games, this means I only swapped the late games). Using this method and starting point, this is the best possible schedule. The max split games dropped from 7 down to 5, but the min early/split/late are still too low.
 
-The schedule has some quirks, but maybe we can remap the teams to better suit the _personality_ of the schedule. For example, Team 6 requested all late games, so they'd cannot be swapped. Team 5 has to travel 60 miles, so we could give them the matchups that have no splits, so I also swapped the play times for Team 4 and Team 5.
+The schedule has some quirks, but maybe we can remap the teams to better suit the _personality_ of the schedule. For example, Team 6 requested all late games; they cannot be swapped. Team 5 has to travel 60 miles, so we could give them the matchups that have no splits; I also swapped the play times for Team 4 and Team 5 already. Since these are the only two transforms, it's pretty easy to compare against the original schedule to see what I mean.
+
+Most teams have 5 splits, that's about the only optimization. But that's the most important metric to be even, that's the kind of game set that nobody wants. At least you can give "more early games" or "more late games" to teams that want them.
 
 # Metrics
-
-Most teams have 5 splits, one team is blessed with 0 splits, and the remaining have 2 to 4.
-
-Early and Late games are pretty evenly spread, but there are still outliers, especially for late games.
 
 | Team  | Early | Late  | Split |
 |-------|-------|-------|-------|
