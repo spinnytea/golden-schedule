@@ -16,35 +16,21 @@
 const SimpleGraphExpander = require('./lib/graphExpander').SimpleGraphExpander;
 
 let graphExpander = new SimpleGraphExpander();
+graphExpander.node.schedule.DELAY_REMATCH = 1;
+graphExpander.node.schedule.MAX_EARLY = 11;
+graphExpander.node.schedule.MAX_LATE = 11;
+graphExpander.node.schedule.MAX_SPLIT = 11;
 
 console.time('expanding');
 
-// week 1
-// graphExpander = graphExpander
-// 	.setNext([2, 12]).setNext([4, 11]).setNext([7, 8]).setNext([5, 9]);
-// 	.setNext([3, 12]).setNext([4, 10]).setNext([1, 7]).setNext([6, 9])
-// 	.setNext([3, 11]).setNext([5, 10]).setNext([1, 2]).setNext([6, 8]);
-
-// the first time slot really doesn't matter
-graphExpander = graphExpander.tryNext().tryNext().tryNext().tryNext();
-
-// FIXME move this into graphExpander
-const prevExpanders = [];
-for(let i = 0; !graphExpander.finished && i <= 1000; i++) {
-	if(i % 100 === 0) console.log(graphExpander.getStateStr('iter ' + i));
-	prevExpanders.push(graphExpander);
-	graphExpander = graphExpander.tryNext();
-
-	if(!graphExpander) {
-		prevExpanders.pop();
-		graphExpander = prevExpanders.pop();
-	}
-}
+graphExpander.doLoop(1000, 10);
 
 console.log(graphExpander.node.schedule.prettyBook({
 	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 3', 'August 10'],
 	time: ['6:30', '7:40', '8:50'],
 	arena: ['A', 'B', 'C', 'D'],
 }));
+
+console.log(graphExpander.node.schedule.remainingMatches);
 
 console.timeEnd('expanding');

@@ -35,7 +35,7 @@ describe('Graph Expander Example', function () {
 		expect(graphExpander.node.schedule.remainingMatches).to.deep.equal([[4, 10]]);
 		expect(graphExpander.node.schedule.calcAllowableMatches({ week: 10, time: 2, arena: 3 })).to.deep.equal([[4, 10]]);
 
-		graphExpander = graphExpander.tryNext();
+		graphExpander.tryNext();
 
 		expect(graphExpander.finished).to.equal(true);
 		expect(graphExpander.coords).to.deep.equal({ week: 0, time: 0, arena: 0 });
