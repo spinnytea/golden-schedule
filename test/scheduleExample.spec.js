@@ -128,6 +128,7 @@ describe('Schedule Example', function () {
 					maxEarly: 6,
 					maxLate: 8,
 					maxSplit: 5,
+					rematchWeeks: [0, 0, 0, 0, 0, 6, 12, 12, 12, 12, 12],
 				});
 				s.swapTeams([1, 2, 3, 5, 4, 6, 7, 8, 9, 10, 11, 12]);
 				expect(s.calcMetrics()).to.deep.equal({
@@ -137,6 +138,7 @@ describe('Schedule Example', function () {
 					maxEarly: 6,
 					maxLate: 8,
 					maxSplit: 5,
+					rematchWeeks: [0, 0, 0, 0, 0, 6, 12, 12, 12, 12, 12],
 				});
 
 				// console.log(s.prettyMetrics());

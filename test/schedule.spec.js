@@ -228,6 +228,7 @@ describe('schedule', function () {
 				maxEarly: 0,
 				maxLate: 0,
 				maxSplit: 0,
+				rematchWeeks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
 			expect(s.calcMetrics().early).to.not.have.property('-1'); // bugfix
 
@@ -243,6 +244,7 @@ describe('schedule', function () {
 				maxEarly: 1,
 				maxLate: 1,
 				maxSplit: 1,
+				rematchWeeks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
 		});
 	});
