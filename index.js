@@ -23,7 +23,7 @@ graphExpander.node.schedule.MAX_SPLIT = 11;
 
 console.time('expanding');
 
-graphExpander.doLoop(1000, 10);
+graphExpander.doLoop(2000, 100);
 
 console.log(graphExpander.node.schedule.prettyBook({
 	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 3', 'August 10'],
@@ -31,6 +31,6 @@ console.log(graphExpander.node.schedule.prettyBook({
 	arena: ['A', 'B', 'C', 'D'],
 }));
 
-console.log(graphExpander.node.schedule.remainingMatches);
+console.log(graphExpander.node.schedule.remainingMatches.length < 10 ? graphExpander.node.schedule.remainingMatches : '...many remainingMatches');
 
 console.timeEnd('expanding');
