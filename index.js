@@ -16,21 +16,26 @@
 const SimpleGraphExpander = require('./lib/graphExpander').SimpleGraphExpander;
 
 let graphExpander = new SimpleGraphExpander();
-graphExpander.node.schedule.DELAY_REMATCH = 1;
-graphExpander.node.schedule.MAX_EARLY = 11;
-graphExpander.node.schedule.MAX_LATE = 11;
-graphExpander.node.schedule.MAX_SPLIT = 11;
+const relaxRematch = 100;
+const relaxSplit = 100;
+const relaxOther = 100;
+graphExpander.node.schedule.DELAY_REMATCH = Math.max(1, graphExpander.node.schedule.DELAY_REMATCH - relaxRematch);
+graphExpander.node.schedule.MAX_EARLY = Math.min(11, graphExpander.node.schedule.MAX_EARLY + relaxOther);
+graphExpander.node.schedule.MAX_LATE = Math.min(11, graphExpander.node.schedule.MAX_LATE + relaxOther);
+graphExpander.node.schedule.MAX_SPLIT = Math.min(11, graphExpander.node.schedule.MAX_SPLIT + relaxSplit);
 
 console.time('expanding');
 
 graphExpander.doLoop(2000, 100);
 
+console.log(graphExpander.getStateStr('final'));
+console.log(graphExpander.node.schedule.prettyMetrics());
 console.log(graphExpander.node.schedule.prettyBook({
 	week: ['June 1', 'June 8', 'June 15', 'June 22', 'June 29', 'July 6', 'July 13', 'July 20', 'July 27', 'August 3', 'August 10'],
 	time: ['6:30', '7:40', '8:50'],
 	arena: ['A', 'B', 'C', 'D'],
-}));
-
-console.log(graphExpander.node.schedule.remainingMatches.length < 10 ? graphExpander.node.schedule.remainingMatches : '...many remainingMatches');
+}, 'rematch'));
+console.log('remainingMatches', graphExpander.node.schedule.remainingMatches.length < 10 ? graphExpander.node.schedule.remainingMatches : '...many');
+console.log('finished', graphExpander.finished);
 
 console.timeEnd('expanding');

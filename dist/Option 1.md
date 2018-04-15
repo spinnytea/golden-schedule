@@ -13,6 +13,7 @@ Early and Late games are pretty evenly spread, but there are still outliers, esp
 
 | Team  | Early | Late  | Split |
 |-------|-------|-------|-------|
+|  MAX  |    6  |    8  |    5  |
 |    1  |    5  |    1  |    5  |
 |    2  |    5  |    1  |    5  |
 |    3  |    3  |    3  |    5  |
