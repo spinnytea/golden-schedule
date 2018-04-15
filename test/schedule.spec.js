@@ -255,15 +255,22 @@ describe('schedule', function () {
 			number_of_pairing_matches: 2,
 		});
 
-		expect(matches.slice(0, 5)).to.deep.equal([
-			[1, 2], [1, 2],
-			[1, 3], [1, 3],
-			[1, 4],
-		]);
-		expect(matches.slice(-5)).to.deep.equal([
-			[10, 11],
-			[10, 12], [10, 12],
-			[11, 12], [11, 12],
-		]);
+		expect(matches.length).to.equal(132);
+
+		expect(_.chain(matches).map('[0]').countBy().value())
+			.to.deep.equal({ 1: 22, 2: 20, 3: 18, 4: 16, 5: 14, 6: 12, 7: 10, 8: 8, 9: 6, 10: 4, 11: 2 });
+		expect(_.chain(matches).map('[1]').countBy().value())
+			.to.deep.equal({ 2: 2, 3: 4, 4: 6, 5: 8, 6: 10, 7: 12, 8: 14, 9: 16, 10: 18, 11: 20, 12: 22 });
+
+		// expect(matches.slice(0, 6)).to.deep.equal([
+		// 	[1, 2],
+		// 	[1, 3], [2, 3],
+		// 	[1, 4], [2, 4], [3, 4],
+		// ]);
+		// expect(matches.slice(-6)).to.deep.equal([
+		// 	[3, 4], [2, 4], [1, 4],
+		// 	[2, 3], [1, 3],
+		// 	[1, 2],
+		// ]);
 	});
 });
