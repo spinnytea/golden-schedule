@@ -125,9 +125,9 @@ describe('Schedule Example', function () {
 					early: [5, 5, 3, 3, 3, 0, 5, 1, 6, 2, 6, 5],
 					late: [1, 1, 3, 8, 3, 11, 1, 7, 0, 7, 0, 2],
 					split: [5, 5, 5, 0, 5, 0, 5, 3, 5, 2, 5, 4],
-					maxEarly: 6,
-					maxLate: 8,
-					maxSplit: 5,
+					maxEarly: 6, minEarly: 1,
+					maxLate: 8, minLate: 0,
+					maxSplit: 5, minSplit: 0,
 					rematchWeeks: [0, 0, 0, 0, 0, 6, 12, 12, 12, 12, 12],
 				});
 				s.swapTeams([1, 2, 3, 5, 4, 6, 7, 8, 9, 10, 11, 12]);
@@ -135,9 +135,9 @@ describe('Schedule Example', function () {
 					early: [5, 5, 3, 3, 3, 0, 5, 1, 6, 2, 6, 5],
 					late: [1, 1, 3, 3, 8, 11, 1, 7, 0, 7, 0, 2],
 					split: [5, 5, 5, 5, 0, 0, 5, 3, 5, 2, 5, 4],
-					maxEarly: 6,
-					maxLate: 8,
-					maxSplit: 5,
+					maxEarly: 6, minEarly: 1,
+					maxLate: 8, minLate: 0,
+					maxSplit: 5, minSplit: 0,
 					rematchWeeks: [0, 0, 0, 0, 0, 6, 12, 12, 12, 12, 12],
 				});
 

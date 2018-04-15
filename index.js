@@ -19,6 +19,21 @@ const Schedule = require('./lib/schedule').Schedule;
 const GraphNode = require('./lib/graphNode').GraphNode;
 const SimpleGraphExpander = require('./lib/graphExpander').SimpleGraphExpander;
 
+
+//
+// FIXME this is the final resting place of this file
+// - the last go was an iterative "save it as you go" approach
+// - it'd run it until i met a milestone, snapshot some of the progress, and run it again
+// - i.e. run until week 2 is filled
+//        run until all mins are at least 1
+//        run until week 5 is filled
+//        run until week 6, and min early/split are at least 2
+//        run until week 8, all mins are at least 2
+//        run until week 10, and min early/split are at least 3
+//        relax early -> run until end
+//
+
+
 const schedule = (new Schedule()).init();
 const bookIterator = new BookIterator(schedule);
 function nextMatch(match) {
@@ -27,56 +42,55 @@ function nextMatch(match) {
 // week 1
 schedule.setMatch(bookIterator.current, _.find(schedule.remainingMatches, _.matches([1, 2])));
 [
-	// // week 1
-	// [3, 4], [5, 7], [8, 9],
-	// [6, 10], [11, 12], [1, 3], [5, 8],
-	// [6, 11], [10, 12], [2, 4], [7, 9],
+	// week 1
+	[9, 10], [4, 12], [3, 5],
+	[6, 7], [8, 11], [2, 4], [5, 10],
+	[6, 8], [7, 11], [1, 12], [3, 9],
 	// // week 2
-	// [1, 4], [5, 9], [2, 12], [3, 7],
-	// [6, 8], [10, 11], [2, 7], [4, 9],
-	// [6, 12], [1, 5], [3, 10], [8, 11],
-	// // week 3
-	// [1, 7], [4, 8], [2, 10], [3, 5],
-	// [6, 9], [1, 11], [8, 12], [7, 10],
-	// [9, 12], [2, 6], [4, 5], [3, 11],
-	// // week 4
-	// [4, 7], [1, 12], [2, 9], [3, 8],
-	// [5, 6], [2, 11], [4, 10], [3, 12],
-	// [6, 7], [1, 8], [5, 10], [9, 11],
-	// // week 5
-	// [1, 9], [2, 3], [4, 11], [5, 12],
-	// [7, 8], [9, 10], [5, 11], [3, 6],
-	// [4, 6], [7, 12], [1, 10], [2, 8],
-	// // week 6
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
-	// // week 7
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
-	// // week 8
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
-	// // week 9
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
-	// // week 10
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
-	// // week 11
-	// [], [], [], [],
-	// [], [], [], [],
-	// [], [], [], [],
+	[4, 9], [5, 11], [1, 7], [2, 8],
+	[3, 6], [10, 12], [1, 11], [8, 9],
+	[4, 6], [2, 3], [5, 12], [7, 10],
+	// week 3
+	[1, 5], [2, 9], [7, 12], [3, 11],
+	[6, 10], [4, 8], [3, 7], [11, 12],
+	[4, 10], [2, 6], [1, 9], [5, 8],
+	// week 4
+	[5, 9], [4, 7], [3, 10], [8, 12],
+	[1, 6], [2, 11], [3, 8], [5, 7],
+	[6, 12], [2, 10], [1, 4], [9, 11],
+	// week 5
+	[10, 11], [1, 8], [3, 12], [2, 7],
+	[5, 6], [9, 12], [1, 10], [3, 4],
+	[6, 9], [2, 5], [4, 11], [7, 8],
+	// week 6
+	[7, 9], [8, 10], [1, 3], [2, 12],
+	[6, 11], [4, 5], [1, 2], [9, 10],
+	[6, 8], [3, 5], [7, 11], [4, 12],
+	// week 7
+	[2, 3], [4, 9], [1, 11], [5, 10],
+	[4, 6], [2, 8], [5, 12], [1, 7],
+	[6, 7], [10, 12], [8, 11], [3, 9],
+	// week 8
+	[2, 9], [4, 8], [5, 11], [7, 10],
+	[3, 6], [1, 12], [2, 4], [8, 9],
+	[3, 11], [6, 10], [1, 5], [7, 12],
+	// week 9
+	[8, 12], [2, 11], [4, 10], [3, 7],
+	[1, 6], [5, 9], [4, 7], [11, 12],
+	[2, 6], [5, 8], [1, 9], [3, 10],
+	// week 10
+	[9, 12], [4, 11], [1, 8], [5, 7],
+	[6, 9], [10, 11], [2, 7], [3, 8],
+	[2, 5], [6, 12], [3, 4], [1, 10],
+	// week 11
+	[9, 11], [4, 5], [1, 3], [8, 10],
+	[5, 6], [2, 10], [3, 12], [7, 9],
+	[6, 11], [7, 8], [1, 4], [2, 12],
 ].forEach(nextMatch);
-// const graphExpander = new SimpleGraphExpander(new GraphNode(schedule), bookIterator.next());
-const graphExpander = new SimpleGraphExpander(); void(GraphNode);
+const graphExpander = new SimpleGraphExpander(new GraphNode(schedule), bookIterator.next());
 const relaxRematch = 0;
 const relaxSplit = 0;
-const relaxOther = 0;
+const relaxOther = 1;
 graphExpander.node.schedule.DELAY_REMATCH = Math.max(1, graphExpander.node.schedule.DELAY_REMATCH - relaxRematch);
 graphExpander.node.schedule.MAX_EARLY = Math.min(11, graphExpander.node.schedule.MAX_EARLY + relaxOther);
 graphExpander.node.schedule.MAX_LATE = Math.min(11, graphExpander.node.schedule.MAX_LATE + relaxOther);
@@ -84,7 +98,16 @@ graphExpander.node.schedule.MAX_SPLIT = Math.min(11, graphExpander.node.schedule
 
 console.time('expanding');
 
-graphExpander.doLoop(5000, 100);
+graphExpander.doLoop(500000, 500);
+// graphExpander.doLoop(4000, 50, function () {
+// 	const metrics = graphExpander.node.schedule.calcMetrics();
+// 	// return metrics.minEarly < 1 || metrics.minLate < 1 || metrics.minSplit < 1;
+// 	return !(metrics.maxEarly - metrics.minEarly < 3 &&
+// 		metrics.maxLate - metrics.minLate < 3 &&
+// 		metrics.maxSplit - metrics.minSplit < 3) ||
+// 		metrics.minEarly < 3 || metrics.minLate < 2 || metrics.minSplit < 3 ||
+// 		graphExpander.coords.week < 10;
+// });
 
 console.log(graphExpander.node.schedule.prettyMetrics());
 console.log(graphExpander.node.schedule.prettyBook({

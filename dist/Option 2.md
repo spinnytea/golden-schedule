@@ -9,6 +9,7 @@ Just as Option 1, we can swap teams around if needed, but there isn't as much va
 | Team  | Early | Late  | Split |
 |-------|-------|-------|-------|
 |  MAX  |    6  |    5  |    5  |
+|  MIN  |    3  |    0  |    2  |
 |    1  |    3  |    5  |    3  |
 |    2  |    3  |    4  |    4  |
 |    3  |    4  |    2  |    5  |

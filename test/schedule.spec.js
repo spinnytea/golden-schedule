@@ -225,9 +225,9 @@ describe('schedule', function () {
 				early: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				late: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				split: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				maxEarly: 0,
-				maxLate: 0,
-				maxSplit: 0,
+				maxEarly: 0, minEarly: 0,
+				maxLate: 0, minLate: 0,
+				maxSplit: 0, minSplit: 0,
 				rematchWeeks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
 			expect(s.calcMetrics().early).to.not.have.property('-1'); // bugfix
@@ -241,9 +241,9 @@ describe('schedule', function () {
 				early: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				late: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 				split: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-				maxEarly: 1,
-				maxLate: 1,
-				maxSplit: 1,
+				maxEarly: 1, minEarly: 0,
+				maxLate: 1, minLate: 0,
+				maxSplit: 1, minSplit: 0,
 				rematchWeeks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			});
 		});
